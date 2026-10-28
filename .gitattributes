@@ -1,0 +1,3 @@
+# Derleme WSL/Linux'ta yapilir: satir sonlari her yerde LF kalir
+* text=auto eol=lf
+*.bin binary

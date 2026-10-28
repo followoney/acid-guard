@@ -1,0 +1,105 @@
+{
+  "isolation": [
+    {
+      "label": "stale read: begin seq_eq(bob, old) + transfer 100",
+      "expect": "FAIL 0xAC1D0100",
+      "status": "FAILED",
+      "signature": "tsdqIApp4i8rmTywTrlSEeveDoUVH4qeNEHKsIFVmGLgmWgHCeffdWKP9X3jV6baDBLiNw4u7z2WPNVeWWvBgMBiA9",
+      "url": "https://scan.thru.org/tx/tsdqIApp4i8rmTywTrlSEeveDoUVH4qeNEHKsIFVmGLgmWgHCeffdWKP9X3jV6baDBLiNw4u7z2WPNVeWWvBgMBiA9?network=alphanet",
+      "vm_error": "-765 (TN_RUNTIME_TXN_ERR_VM_REVERT)",
+      "user_error_code": "0xAC1D0100",
+      "bob_balance_before": "2",
+      "bob_balance_after": "2"
+    },
+    {
+      "label": "fresh read: begin seq_eq(bob, current) + transfer 100 + commit balance_min",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "signature": "tsIRDwABVqWLXPlu9bqL_1AxvHUHk3iNDiJxqWDh2NOi_ytztVG8SYqiJQ599DTc-wwB1J3DBcyuC8R8SOsVpeCR5v",
+      "url": "https://scan.thru.org/tx/tsIRDwABVqWLXPlu9bqL_1AxvHUHk3iNDiJxqWDh2NOi_ytztVG8SYqiJQ599DTc-wwB1J3DBcyuC8R8SOsVpeCR5v?network=alphanet",
+      "slot": 3297498,
+      "vm_error": "0 (TN_RUNTIME_TXN_EXECUTE_SUCCESS)",
+      "user_error_code": "0x0",
+      "compute_units": 16612,
+      "events": 2,
+      "bob_balance_before": "2",
+      "bob_balance_after": "102"
+    }
+  ],
+  "consistency": [
+    {
+      "label": "transfer 100 then commit balance_max(bob, old balance)",
+      "expect": "FAIL 0xAC1D0500 and rollback",
+      "status": "FAILED",
+      "signature": "tszPXl6beaqBnXb-gOGtvtFxibl1ozn0PWTSZ_impVH6iGj6SpEh8fjkkj4_p-AlsogiRum_WuiggcycFAj-S5Dh73",
+      "url": "https://scan.thru.org/tx/tszPXl6beaqBnXb-gOGtvtFxibl1ozn0PWTSZ_impVH6iGj6SpEh8fjkkj4_p-AlsogiRum_WuiggcycFAj-S5Dh73?network=alphanet",
+      "vm_error": "-765 (TN_RUNTIME_TXN_ERR_VM_REVERT)",
+      "user_error_code": "0xAC1D0500",
+      "bob_balance_before": "102",
+      "bob_balance_after": "102"
+    }
+  ],
+  "durability": [
+    {
+      "label": "ancestor(slot 3297503, explorer hash)",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "signature": "tsOB31BOnbX72tkf9TwDS6KWxL7jbnUatsBpJ1NyO9dHlKV5C1JuFn6vRldfFy_CCwviwdg6Y3Dkbm2q6ztp3HAiED",
+      "url": "https://scan.thru.org/tx/tsOB31BOnbX72tkf9TwDS6KWxL7jbnUatsBpJ1NyO9dHlKV5C1JuFn6vRldfFy_CCwviwdg6Y3Dkbm2q6ztp3HAiED?network=alphanet",
+      "slot": "3297503",
+      "vm_error": "0 (TN_RUNTIME_TXN_EXECUTE_SUCCESS)",
+      "user_error_code": "0x0",
+      "compute_units": 7052,
+      "events": 1,
+      "hash": "504a16f778d2d9d17ef08cfac8f9ed48e366a584b6c5c9538576e36468b67283"
+    },
+    {
+      "label": "ancestor(slot 3297503, forged hash)",
+      "expect": "FAIL 0xAC1D0600",
+      "status": "FAILED",
+      "signature": "ts8ksUp_m1QEOui2q3GTWfIRa-XE1GBNt8q68N1IwbHCQHWKAA012PqvNvS0zIlKjAekxz60RE9RTSUuy_QF08CB1b",
+      "url": "https://scan.thru.org/tx/ts8ksUp_m1QEOui2q3GTWfIRa-XE1GBNt8q68N1IwbHCQHWKAA012PqvNvS0zIlKjAekxz60RE9RTSUuy_QF08CB1b?network=alphanet",
+      "slot": "3297503",
+      "vm_error": "-765 (TN_RUNTIME_TXN_ERR_VM_REVERT)",
+      "user_error_code": "0xAC1D0600",
+      "hash": "504a16f778d2d9d17ef08cfac8f9ed48e366a584b6c5c9538576e36468b67200"
+    }
+  ],
+  "phantom": [
+    {
+      "label": "absent(never-created address)",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "signature": "tsbAmjZtBgZaTG6nby45iaNm4jzeiwwJA-g0L23rYXzqD3Jejh5biaU0gH2APQX1C2qtK3XO-o2rBwniRrdX2SCiQb",
+      "url": "https://scan.thru.org/tx/tsbAmjZtBgZaTG6nby45iaNm4jzeiwwJA-g0L23rYXzqD3Jejh5biaU0gH2APQX1C2qtK3XO-o2rBwniRrdX2SCiQb?network=alphanet",
+      "slot": 3297526,
+      "vm_error": "0 (TN_RUNTIME_TXN_EXECUTE_SUCCESS)",
+      "user_error_code": "0x0",
+      "compute_units": 5773,
+      "events": 1,
+      "address": "tanu59TfFFMwVcZ0MJDkFxroToaVu_OEyC3MoKz3bFzwrJ"
+    },
+    {
+      "label": "absent(bob, a live account)",
+      "expect": "FAIL 0xAC1D0300",
+      "status": "FAILED",
+      "signature": "tsvc_9uyXDBWmaQvOO-q0fi7dOypUs6I7tAt1qriO2K6SL304r-ttwCnx2vaurXs6Klr-NKaLweHW_taUcU-KGAyNE",
+      "url": "https://scan.thru.org/tx/tsvc_9uyXDBWmaQvOO-q0fi7dOypUs6I7tAt1qriO2K6SL304r-ttwCnx2vaurXs6Klr-NKaLweHW_taUcU-KGAyNE?network=alphanet",
+      "vm_error": "-765 (TN_RUNTIME_TXN_ERR_VM_REVERT)",
+      "user_error_code": "0xAC1D0300"
+    },
+    {
+      "label": "code pin: data_hash(ACID program, 0, 3960, sha256 of audited binary)",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "signature": "ts4Aagp411B2LUf5EUm_Gqqpar38c523KWHtlqssYfCGbVuR18oAdRyhGglw4lPmkrGiH1Ho7rJebBl2WTDy3QAB49",
+      "url": "https://scan.thru.org/tx/ts4Aagp411B2LUf5EUm_Gqqpar38c523KWHtlqssYfCGbVuR18oAdRyhGglw4lPmkrGiH1Ho7rJebBl2WTDy3QAB49?network=alphanet",
+      "slot": 3297533,
+      "vm_error": "0 (TN_RUNTIME_TXN_EXECUTE_SUCCESS)",
+      "user_error_code": "0x0",
+      "compute_units": 688115,
+      "events": 1,
+      "sha256": "11c3cead090bf1e22b6aaa26f9facb73992324a71fc1628c081eca344a9ff881"
+    }
+  ]
+}

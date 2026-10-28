@@ -1,0 +1,10 @@
+{
+  "name": "thru-acid-scripts",
+  "private": true,
+  "type": "module",
+  "description": "ACID Guard icin istemci betikleri: adres ogutme, yuk kodlama, canli gosterim",
+  "dependencies": {
+    "@thru/programs": "^0.4.2",
+    "@thru/sdk": "^0.4.2"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "thru-explorer": {
+      "type": "http",
+      "url": "https://scan.thru.org/api/mcp"
+    }
+  }
+}

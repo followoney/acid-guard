@@ -1,0 +1,7 @@
+scripts/node_modules/
+acid/build/
+# thru abi codegen ciktisi: acid_guard.abi.yaml'dan yeniden uretilir
+acid/generated/
+# yerel ajan araclari ve paylasilmamis taslaklar
+.claude/
+X-POSTLARI.md

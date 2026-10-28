@@ -1,0 +1,217 @@
+abi:
+  package: thru.program.acid_guard
+  name: "ACID Guard"
+  abi-version: 1
+  package-version: "1.0.0"
+  description: >-
+    Stateless transaction guard. Place begin/commit predicates around any
+    program calls in one Multicall transaction: seq_eq, data_hash and absent
+    validate the read set (isolation), balance bounds and data_hash check
+    postconditions (consistency), ancestor binds the transaction to the fork
+    its author observed (durability). Any failed predicate reverts the whole
+    transaction (atomicity). Error codes read 0xAC1D_KK_II.
+  imports: []
+  options:
+    program-metadata:
+      root-types:
+        instruction-root: "AcidInstruction"
+        account-root: null
+        errors: "AcidError"
+        events: "AcidEvent"
+
+types:
+  - name: Hash
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: bytes
+            field-type:
+              array:
+                size:
+                  literal:
+                    u64: 32
+                element-type:
+                  primitive: u8
+
+  - name: SeqEq
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: account_index
+            field-type:
+              primitive: u16
+          - name: seq
+            field-type:
+              primitive: u64
+
+  - name: DataHash
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: account_index
+            field-type:
+              primitive: u16
+          - name: offset
+            field-type:
+              primitive: u32
+          - name: length
+            field-type:
+              primitive: u32
+          - name: sha256
+            field-type:
+              type-ref:
+                name: Hash
+
+  - name: Absent
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: account_index
+            field-type:
+              primitive: u16
+
+  - name: BalanceBound
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: account_index
+            field-type:
+              primitive: u16
+          - name: amount
+            field-type:
+              primitive: u64
+
+  - name: Ancestor
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: slot
+            field-type:
+              primitive: u64
+          - name: block_hash
+            field-type:
+              type-ref:
+                name: Hash
+
+  - name: Predicate
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: kind
+            field-type:
+              primitive: u8
+          - name: body
+            field-type:
+              enum:
+                packed: true
+                tag-ref:
+                  field-ref:
+                    path: ["kind"]
+                variants:
+                  - name: seq_eq
+                    tag-value: 1
+                    variant-type:
+                      type-ref:
+                        name: SeqEq
+                  - name: data_hash
+                    tag-value: 2
+                    variant-type:
+                      type-ref:
+                        name: DataHash
+                  - name: absent
+                    tag-value: 3
+                    variant-type:
+                      type-ref:
+                        name: Absent
+                  - name: balance_min
+                    tag-value: 4
+                    variant-type:
+                      type-ref:
+                        name: BalanceBound
+                  - name: balance_max
+                    tag-value: 5
+                    variant-type:
+                      type-ref:
+                        name: BalanceBound
+                  - name: ancestor
+                    tag-value: 6
+                    variant-type:
+                      type-ref:
+                        name: Ancestor
+
+  - name: CheckArgs
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: count
+            field-type:
+              primitive: u8
+          - name: predicates
+            field-type:
+              array:
+                jagged: true
+                size:
+                  field-ref:
+                    path: ["count"]
+                element-type:
+                  type-ref:
+                    name: Predicate
+
+  - name: AcidInstruction
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: tag
+            field-type:
+              primitive: u8
+          - name: payload
+            field-type:
+              enum:
+                packed: true
+                tag-ref:
+                  field-ref:
+                    path: ["tag"]
+                variants:
+                  - name: begin
+                    tag-value: 0
+                    variant-type:
+                      type-ref:
+                        name: CheckArgs
+                  - name: commit
+                    tag-value: 1
+                    variant-type:
+                      type-ref:
+                        name: CheckArgs
+
+  - name: AcidEvent
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: phase
+            field-type:
+              primitive: u8
+          - name: checked
+            field-type:
+              primitive: u8
+          - name: slot
+            field-type:
+              primitive: u64
+
+  - name: AcidError
+    kind:
+      struct:
+        packed: true
+        fields:
+          - name: code
+            field-type:
+              primitive: u64
